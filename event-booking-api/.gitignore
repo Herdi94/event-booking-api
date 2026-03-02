@@ -31,3 +31,24 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Application Properties ###
+application-local.properties
+application-dev.properties
+application-prod.properties
+application-staging.properties
+application-*.yml
+application.yml
+
+# Environment
+.env
+
+# Logs
+logs/
+*.log
+
+# Java compiled
+*.class
+
+# JPB
+.jpb/
