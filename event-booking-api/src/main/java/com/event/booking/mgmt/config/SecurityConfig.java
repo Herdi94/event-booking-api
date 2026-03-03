@@ -74,10 +74,10 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/auth/login",
-                                "/api/auth/init-data",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**"
+                                "/api/user/registration"
+                                ,"/api/user/login"
+                                ,"/swagger-ui/**"
+                                ,"/v3/api-docs/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
