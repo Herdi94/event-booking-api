@@ -1,5 +1,7 @@
 package com.event.booking.mgmt.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,6 +30,8 @@ public class EventCreateRequest {
     private String location;
 
     @NotNull(message = "Event date must not be empty.")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @Schema(type = "string")
     private LocalDateTime eventDate;
 
     @NotNull(message = "Available seats must not be empty.")

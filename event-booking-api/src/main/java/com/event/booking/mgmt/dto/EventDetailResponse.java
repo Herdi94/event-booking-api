@@ -2,9 +2,6 @@ package com.event.booking.mgmt.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -15,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventCreateResponse {
+public class EventDetailResponse {
 
     private Integer idEvent;
     private String title;
@@ -27,6 +24,7 @@ public class EventCreateResponse {
     private LocalDateTime eventDate;
 
     private Integer availableSeats;
+    private Integer currentAvailableSeats;
     private BigDecimal price;
     private String createBy;
 

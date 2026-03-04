@@ -2,15 +2,15 @@ package com.event.booking.mgmt.controller;
 
 import com.event.booking.mgmt.dto.EventCreateRequest;
 import com.event.booking.mgmt.dto.EventCreateResponse;
+import com.event.booking.mgmt.dto.EventDetailResponse;
 import com.event.booking.mgmt.service.EventService;
 import com.event.booking.mgmt.util.ResponseUtil;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 @SecurityRequirement(name = "bearerAuth")
 @RequestMapping("api/event")
@@ -23,10 +23,25 @@ public class EventMgmtController {
         this.eventService = eventService;
     }
 
-    public ResponseEntity<?> create(@RequestBody EventCreateRequest request, Authentication authentication){
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody @Valid EventCreateRequest request, Authentication authentication){
             String email = authentication.getName();
             EventCreateResponse response = eventService.create(request, email);
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(ResponseUtil.buildSuccessResponse(response, "Successfully create event."));
+            return ResponseUtil.buildSuccessResponse(response, "Successfully create event.");
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getUpcomingEvents(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size){
+
+        Map<String, Object> responses = eventService.getUpcomingEvents(page, size);
+        return ResponseUtil.buildSuccessResponse(responses, "Successfully retrieve upcoming events");
+    }
+
+    @GetMapping("/{idEvent}")
+    public ResponseEntity<?> getEventDetail(@PathVariable Integer idEvent){
+        EventDetailResponse response = eventService.getEventDetail(idEvent);
+        return ResponseUtil.buildSuccessResponse(response, "Successfully retrieve event detail");
     }
 }
