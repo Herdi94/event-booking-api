@@ -22,6 +22,7 @@ public class User {
     @Column(name = "ID_USER")
     private Integer idUser;
 
+    @NotBlank(message = "Name must not be empty.")
     @Column(name = "NAME", nullable = false, length = 100)
     private String name;
 

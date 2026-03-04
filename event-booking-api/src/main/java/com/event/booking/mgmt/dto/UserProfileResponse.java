@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserProfile {
+public class UserProfileResponse {
     private String name;
     private String email;
 }
