@@ -1,0 +1,37 @@
+package com.event.booking.mgmt.dto;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import lombok.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class EventCreateResponse {
+
+    private Integer idEvent;
+    private String title;
+    private String description;
+    private String location;
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @Schema(type = "string")
+    private LocalDateTime eventDate;
+
+    private Integer availableSeats;
+    private BigDecimal price;
+    private String createBy;
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @Schema(type = "string")
+    private LocalDateTime createDate;
+
+}
