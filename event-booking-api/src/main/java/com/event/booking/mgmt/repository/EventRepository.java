@@ -4,8 +4,12 @@ import com.event.booking.mgmt.model.Event;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.time.LocalDateTime;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface EventRepository extends JpaRepository<Event, Integer> {
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+public interface EventRepository extends JpaRepository<Event, Integer>, JpaSpecificationExecutor<Event> {
     Page<Event> findByEventDateAfter(LocalDateTime now, Pageable pageable);
+    Optional<Event> findByIdEventAndIsActiveTrue(Integer idEvent);
 }

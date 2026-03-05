@@ -63,6 +63,10 @@ public class Event {
     @Column(name = "UPDATE_DATE")
     private LocalDateTime updateDate;
 
+    @Builder.Default
+    @Column(name = "IS_ACTIVE")
+    private Boolean isActive = true;
+
     @PrePersist
     public void prePersist(){
         this.createDate = LocalDateTime.now();
