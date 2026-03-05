@@ -1,8 +1,8 @@
 package com.event.booking.mgmt.service.impl;
 
 import com.event.booking.mgmt.dto.BookingCreateResponse;
+import com.event.booking.mgmt.exception.AccessDeniedException;
 import com.event.booking.mgmt.exception.ResourceNotFoundException;
-import com.event.booking.mgmt.exception.UnauthorizedException;
 import com.event.booking.mgmt.model.Booking;
 import com.event.booking.mgmt.model.Event;
 import com.event.booking.mgmt.model.User;
@@ -34,7 +34,7 @@ public class BookingServiceImpl implements BookingService {
     public BookingCreateResponse create(Integer idEvent, Integer numberTickets, Authentication authentication) {
 
         if(authentication == null || !authentication.isAuthenticated())
-            throw new UnauthorizedException("User must be authenticated.");
+            throw new AccessDeniedException("User must be authenticated.");
 
         String email = authentication.getName();
         User user    = userRepository.findByEmail(email)
