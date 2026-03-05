@@ -5,6 +5,7 @@ import com.event.booking.mgmt.exception.AccessDeniedException;
 import com.event.booking.mgmt.exception.ResourceNotFoundException;
 import com.event.booking.mgmt.model.Event;
 import com.event.booking.mgmt.model.User;
+import com.event.booking.mgmt.repository.BookingRepository;
 import com.event.booking.mgmt.repository.EventRepository;
 import com.event.booking.mgmt.repository.UserRepository;
 import com.event.booking.mgmt.service.EventService;
@@ -29,10 +30,12 @@ public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
+    private final BookingRepository bookingRepository;
 
-    public EventServiceImpl(EventRepository eventRepository, UserRepository userRepository){
+    public EventServiceImpl(EventRepository eventRepository, UserRepository userRepository, BookingRepository bookingRepository){
         this.eventRepository = eventRepository;
         this.userRepository  = userRepository;
+        this.bookingRepository = bookingRepository;
     }
 
     @Override
@@ -96,7 +99,7 @@ public class EventServiceImpl implements EventService {
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found."));
 
         //calculate ticket sold
-        int ticketBooked = 10;
+        int ticketBooked = bookingRepository.countTicketBookedByIdEvent(idEvent);
 
         return EventDetailResponse.builder()
                 .idEvent(event.getIdEvent())
@@ -132,7 +135,7 @@ public class EventServiceImpl implements EventService {
         event.setUpdateBy(user);
         eventRepository.flush();
 
-        int ticketBooked = 10; //need relation to model booking
+        int ticketBooked = bookingRepository.countTicketBookedByIdEvent(idEvent);
 
         return EventUpdateResponse.builder()
                 .idEvent(event.getIdEvent())
@@ -178,8 +181,6 @@ public class EventServiceImpl implements EventService {
 
         Page<Event> events = eventRepository.findAll(spec, pageable);
 
-        int ticketBooked = 10; //bookingRepository.countByEventId(event.getId());
-
         List<EventSearchResponse> content = events.stream()
                 .map(e -> {
                     return EventSearchResponse.builder()
@@ -189,7 +190,7 @@ public class EventServiceImpl implements EventService {
                             .location(e.getLocation())
                             .eventDate(e.getEventDate())
                             .availableSeats(e.getAvailableSeats())
-                            .currentAvailableSeats(e.getAvailableSeats() - ticketBooked)
+                            .currentAvailableSeats(e.getAvailableSeats() - bookingRepository.countTicketBookedByIdEvent(e.getIdEvent()))
                             .price(e.getPrice())
                             .build();
                 }).toList();
