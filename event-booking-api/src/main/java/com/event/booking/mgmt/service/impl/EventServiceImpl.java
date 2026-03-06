@@ -108,7 +108,7 @@ public class EventServiceImpl implements EventService {
                 .location(event.getLocation())
                 .eventDate(event.getEventDate())
                 .availableSeats(event.getAvailableSeats())
-                .currentAvailableSeats(ticketBooked)
+                .currentAvailableSeats(event.getAvailableSeats() - ticketBooked)
                 .price(event.getPrice())
                 .createBy(event.getCreateBy().getName())
                 .createDate(event.getCreateDate())

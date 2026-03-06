@@ -1,6 +1,7 @@
 package com.event.booking.mgmt.controller;
 
 import com.event.booking.mgmt.dto.BookingCreateResponse;
+import com.event.booking.mgmt.dto.BookingResponse;
 import com.event.booking.mgmt.service.BookingService;
 import com.event.booking.mgmt.util.ResponseUtil;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -27,5 +28,12 @@ public class BookingMgmtController {
 
         BookingCreateResponse response = bookingService.create(idEvent, numberTickets, authentication);
         return ResponseUtil.buildSuccessResponse(response, "Successfully create booking");
+    }
+
+    @GetMapping
+    public ResponseEntity getBooking(Authentication authentication){
+        String email = authentication.getName();
+        BookingResponse response = bookingService.getBooking(email);
+        return ResponseUtil.buildSuccessResponse(response, "Successfully get booking");
     }
 }

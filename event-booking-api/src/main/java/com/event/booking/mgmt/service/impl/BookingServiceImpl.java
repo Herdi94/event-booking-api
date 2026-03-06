@@ -1,6 +1,8 @@
 package com.event.booking.mgmt.service.impl;
 
 import com.event.booking.mgmt.dto.BookingCreateResponse;
+import com.event.booking.mgmt.dto.BookingResponse;
+import com.event.booking.mgmt.dto.EventDetailResponse;
 import com.event.booking.mgmt.exception.AccessDeniedException;
 import com.event.booking.mgmt.exception.ResourceNotFoundException;
 import com.event.booking.mgmt.model.Booking;
@@ -60,6 +62,44 @@ public class BookingServiceImpl implements BookingService {
                 .eventTitle(event.getTitle())
                 .numberTickets(numberTickets)
                 .createDate(booking.getCreateDate())
+                .build();
+    }
+
+    @Override
+    public BookingResponse getBooking(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Email not found"));
+
+        Booking booking = bookingRepository.findByUser(user)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+
+        Event event = eventRepository.findById(booking.getEvent().getIdEvent())
+                .orElseThrow(() -> new ResourceNotFoundException("Event not found"));
+
+        if(!event.getCreateBy().getEmail().equals(email))
+            throw new AccessDeniedException("You are not allowed to update this event");
+
+        int ticketBooked = bookingRepository.countTicketBookedByIdEvent(event.getIdEvent());
+
+        EventDetailResponse eventDetail = EventDetailResponse.builder()
+                .idEvent(event.getIdEvent())
+                .title(event.getTitle())
+                .description(event.getDescription())
+                .location(event.getLocation())
+                .eventDate(event.getEventDate())
+                .availableSeats(event.getAvailableSeats())
+                .currentAvailableSeats(event.getAvailableSeats() - ticketBooked)
+                .price(event.getPrice())
+                .createBy(event.getCreateBy().getName())
+                .createDate(event.getCreateDate())
+                .build();
+
+        return BookingResponse.builder()
+                .idBooking(booking.getIdBooking())
+                .numberTickets(booking.getNumberTickets())
+                .bookingStatus("BOOKED")
+                .createDate(booking.getCreateDate())
+                .eventDetail(eventDetail)
                 .build();
     }
 }
