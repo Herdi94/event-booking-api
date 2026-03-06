@@ -12,23 +12,16 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventDetailResponse {
+public class BookingCreateResponse {
 
-    private Integer idEvent;
-    private String title;
-    private String description;
-    private String location;
-
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    @Schema(type = "string")
-    private LocalDateTime eventDate;
-
-    private Integer availableSeats;
-    private BigDecimal price;
-    private String createBy;
+    private Integer idBooking;
+    private String bookingReference;
+    private String userName;
+    private String eventTitle;
+    private Integer numberTickets;
+    private BigDecimal totalPrice;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Schema(type = "string")
     private LocalDateTime createDate;
-
 }

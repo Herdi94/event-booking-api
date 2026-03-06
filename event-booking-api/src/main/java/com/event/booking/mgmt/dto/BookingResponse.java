@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Builder
@@ -12,18 +11,14 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventSearchResponse {
+public class BookingResponse {
 
-    private Integer idEvent;
-    private String title;
-    private String description;
-    private String location;
+    private Integer idBooking;
+    private Integer numberTickets;
+    private String  bookingStatus;
+    private EventDetailResponse eventDetail;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Schema(type = "string")
-    private LocalDateTime eventDate;
-
-    private Integer availableSeats;
-    private BigDecimal price;
-
+    private LocalDateTime createDate;
 }
