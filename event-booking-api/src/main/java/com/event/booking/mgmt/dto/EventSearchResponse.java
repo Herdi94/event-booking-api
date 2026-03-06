@@ -24,7 +24,6 @@ public class EventSearchResponse {
     private LocalDateTime eventDate;
 
     private Integer availableSeats;
-    private Integer currentAvailableSeats;
     private BigDecimal price;
 
 }

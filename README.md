@@ -35,7 +35,7 @@ The Event Booking Management API is a backend application designed to manage eve
 ### User Management
 - POST	  /api/user/registration  Register a new user
 - POST	  /api/user/login	      User login
-- GET	      /api/user/profile	      Get logged-in user profile
+- GET	  /api/user/profile	      Get logged-in user profile
 
 ### Event Management
 - GET	  /api/event/{idEvent}	  Get event by ID
@@ -46,4 +46,6 @@ The Event Booking Management API is a backend application designed to manage eve
 - GET	  /api/event/search	      Search events
 
 ### Booking Management
-- POST    /api/booking/create     Create a new booking
+- POST    /api/booking/create               Create a new booking
+- PATCH   /api/booking/cancel/{idBooking}   Cancel booking
+- GET     /api/booking                      Get all bookings 

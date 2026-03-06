@@ -24,7 +24,6 @@ public class EventDetailResponse {
     private LocalDateTime eventDate;
 
     private Integer availableSeats;
-    private Integer currentAvailableSeats;
     private BigDecimal price;
     private String createBy;
 

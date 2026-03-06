@@ -1,6 +1,8 @@
 package com.event.booking.mgmt.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -18,19 +20,28 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idBooking;
 
+    @NotBlank(message = "bookingReference must not be empty.")
+    @Column(name = "BOOKING_REFERENCE", unique = true)
+    private String bookingReference;
+
     @ManyToOne
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "ID_USER")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "id_event")
+    @JoinColumn(name = "ID_EVENT")
     private Event event;
 
+    @NotNull(message = "numberTickets must not be empty.")
+    @Column(name = "NUMBER_TICKETS")
     private Integer numberTickets;
+
+    @Builder.Default
+    @Column(name = "IS_ACTIVE")
+    private Boolean isActive = true;
 
     @CreationTimestamp
     @Column(name = "CREATE_DATE", updatable = false)
     private LocalDateTime createDate;
-
 
 }
